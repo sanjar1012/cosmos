@@ -1,2 +1,108 @@
-{% load embed_video_tags %}
-{% video item.url "small" %}
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/599ea3d76c.js" crossorigin="anonymous"></script>
+    
+    <style>
+        :root {
+            --text-color: #080808;
+            --background-color: #8dbc38;
+            --accent-color: #f2f2f2;
+        }
+
+        body {
+            margin: 0;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--text-color)
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: var(--background-color);
+            padding: 8px 12px;
+        }
+
+        .navbar__name {
+            font-size: 24px;
+            color: var(--text-color);
+        }
+
+        .navbar__icons {
+            list-style: none;
+            color: var(--text-color);
+            display: flex;
+            padding-left: 0;
+        }
+
+        .navbar__icons li {
+            padding: 8px 12px;
+        }
+
+        .playcontrolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: var(--background-color);
+            padding: 8px 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="videocontrol">
+        <video id="video" width="100%" controls>
+            <source src="{{ item.file.url }}" type="video/mp4">
+        </video>
+    </div>
+    
+    <nav class="playcontrolbar">
+      <i class="fas fa-play-circle" id="play" onclick="control(event)"></i>
+      <i class="fas fa-pause-circle" id="pause" onclick="control(event)"></i>
+      <i class="fas fa-redo-alt" id="replay" onclick="control(event)"></i>
+      <i class="fas fa-volume-down" id="vol-" onclick="control(event)"></i>
+      <i class="fas fa-volume-up" id="vol+" onclick="control(event)"></i>
+      <i class="fas fa-volume-mute" id="mute on/off" onclick="control(event)"></i>
+      <i class="fas fa-fast-backward" id="speed-" onclick="control(event)"></i>
+      <i class="fas fa-fast-forward" id="speed+" onclick="control(event)"></i>
+    </nav>
+
+    <script>
+        var video = document.getElementById("video");
+        function control(e) {
+            var id = e.target.id;
+            if(id == "play"){
+                video.play();
+            }
+            else if(id == "pause"){
+                video.pause();
+            }
+            else if(id == "replay"){
+                video.load();
+                video.play();
+            }
+            else if(id == "vol-"){
+                video.volume -= 0.1;
+                if(video.volume < 0.1) video.volume = 0;
+            }
+            else if(id == "vol+"){
+                video.volume += 0.1;
+                if(video.volume > 0.9) video.volume = 1.0;
+            }
+            else if(id == "mute on/off"){
+                video.muted = !video.muted;
+            }
+            else if(id == "speed-"){
+                video.playbackRate *= 0.5;
+                if(video.playbackRate < 0.5) video.playbackRate = 0.25;
+            }
+            else if(id == "speed+"){
+                video.playbackRate *= 2;
+                if(video.playbackRate > 16) video.playbackRate = 16;
+            }
+        }
+    </script>
+    
+</body>
